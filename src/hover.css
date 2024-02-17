@@ -1,0 +1,15 @@
+/* i want to create grey rectangulare box hover effect */
+.hover-effect {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    color:black;
+    text-decoration:none;
+}
+
+.hover-effect:hover {
+    background-color: #f2f2f2;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    
+}
