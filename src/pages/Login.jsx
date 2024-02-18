@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie";
 import { useState, useRef } from 'react';
 import { bootstrapFormValidation } from '../utils/bootstrapFormValidation';
+import Socket from '../components/Socket';
 
 
 
@@ -34,6 +35,8 @@ const Login = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include'
+        
         })
             .then(res => res.json())
             .then(res => {
@@ -43,6 +46,8 @@ const Login = () => {
                     setCookie('userID', res.user.user_id, { path: '/', expires: expiryDate });
                     setCookie('auth', true, { path: '/', expires: expiryDate });
                     setCookie('JWT', res.token, { path: '/', expires: expiryDate , sameSite: 'None', secure: true});
+                    Socket.auth.token = res.token;
+                    Socket.connect(); 
                     navigate('/')
                 } else {
                     setCookie('auth', false)

@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { bootstrapFormValidation } from '../utils/bootstrapFormValidation';
+import Socket from '../components/Socket';
 
 
 
@@ -48,6 +49,8 @@ const Register = () => {
                     setCookie('auth', true, { path: '/', expires: expiryDate });
                     setCookie('userID', res.user.user_id, { path: '/', expires: expiryDate });
                     setCookie('JWT', res.token, { path: '/', expires: expiryDate, sameSite: 'None', secure: true });
+                    Socket.auth.token = res.token;
+                    Socket.connect();
                     navigate('/')
                 } else {
                     window.scrollTo(0, 0);

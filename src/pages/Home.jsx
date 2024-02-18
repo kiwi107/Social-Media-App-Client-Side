@@ -24,6 +24,7 @@ const Home = () => {
 
 
         fetchPosts(posts, setPosts, setCookie, navigate, pageNumber, setLoading, setHasMore, cookies.JWT);
+       
 
         Socket.on('connect', () => {
             console.log('connected');
@@ -67,7 +68,7 @@ const Home = () => {
         <div className="mt-5 py-3 justify-content-center">
             {posts.length > 0 ? (
                 posts.map((post) => (
-                    <div key={post.post_id + 'Post'}>
+                    <div key={post.post_id + '#Post'}>
                         <Post post={post} timeAgo={timeAgo} />
                     </div>
                 ))) : (
