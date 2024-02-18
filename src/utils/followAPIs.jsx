@@ -1,8 +1,12 @@
-export const follow = (e, id, setFollowed) => {
+export const follow = (e, id, setFollowed, JWT) => {
     e.preventDefault();
     fetch(`${process.env.REACT_APP_SERVER_URL}/profile/follow/${id}`, {
         method: "POST",
         credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'JWT': JWT || '',
+        },
 
     })
         .then((response) => response.json())
@@ -13,11 +17,15 @@ export const follow = (e, id, setFollowed) => {
         });
 }
 
-export const unfollow = (e, id, setFollowed) => {
+export const unfollow = (e, id, setFollowed, JWT) => {
     e.preventDefault();
     fetch(`${process.env.REACT_APP_SERVER_URL}/profile/unfollow/${id}`, {
         method: "POST",
         credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'JWT': JWT || '',
+        },
     })
         .then((response) => response.json())
         .then((data) => {
@@ -28,10 +36,14 @@ export const unfollow = (e, id, setFollowed) => {
 }
 
 
-export const fetchFollowing = (id, setFollowingList) => {
+export const fetchFollowing = (id, setFollowingList, JWT) => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/profile/following/${id}`, {
         method: "GET",
         credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'JWT': JWT || '',
+        },
     })
         .then((response) => response.json())
         .then((data) => {
@@ -39,10 +51,14 @@ export const fetchFollowing = (id, setFollowingList) => {
         });
 }
 
-export const fetchFollowers = (id, setFollowersList) => {
+export const fetchFollowers = (id, setFollowersList, JWT) => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/profile/followers/${id}`, {
         method: "GET",
         credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'JWT': JWT || '',
+        },
     })
         .then((response) => response.json())
         .then((data) => {

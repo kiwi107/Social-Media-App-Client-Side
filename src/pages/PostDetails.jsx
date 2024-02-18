@@ -18,6 +18,7 @@ const PostDetails = () => {
     const [comments, setComments] = useState([]);
     const location = useLocation()
     const prevPage = location.state || ''
+    const [cookies] = useCookies(['JWT']);
 
 
 
@@ -25,6 +26,11 @@ const PostDetails = () => {
     const fetchPost = async () => {
         fetch(`${process.env.REACT_APP_SERVER_URL}/posts/${id}`, {
             credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'JWT': cookies.JWT || '',
+            },
+
         })
             .then((response) => response.json())
             .then((data) => {
@@ -41,7 +47,7 @@ const PostDetails = () => {
 
         }
         if (prevPage.trigger === 'viewComments') {
-            window.scrollTo(0, document.body.scrollHeight) 
+            window.scrollTo(0, document.body.scrollHeight)
         }
 
     }, []);

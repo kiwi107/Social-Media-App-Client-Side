@@ -1,4 +1,4 @@
-export function likePost(e, post_id, likes, setLikes, setUserHasLiked) {
+export function likePost(e, post_id, likes, setLikes, setUserHasLiked, JWT) {
     e.preventDefault();
     fetch(`${process.env.REACT_APP_SERVER_URL}/posts/like`, {
         method: 'POST',
@@ -7,6 +7,7 @@ export function likePost(e, post_id, likes, setLikes, setUserHasLiked) {
         }),
         headers: {
             'Content-Type': 'application/json',
+            'JWT': JWT || '',
         },
         credentials: 'include',
     })
@@ -23,12 +24,13 @@ export function likePost(e, post_id, likes, setLikes, setUserHasLiked) {
             console.log(err);
         });
 };
-export function unlikePost(e, post_id, likes, setLikes, setUserHasLiked) {
+export function unlikePost(e, post_id, likes, setLikes, setUserHasLiked, JWT) {
     e.preventDefault();
     fetch(`${process.env.REACT_APP_SERVER_URL}/posts/unlike/${post_id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
+            'JWT': JWT || '',
         },
         credentials: 'include',
 
@@ -47,11 +49,12 @@ export function unlikePost(e, post_id, likes, setLikes, setUserHasLiked) {
         });
 }
 
-export const fetchLikes = async (post_id, setLikesList) => {
+export const fetchLikes = async (post_id, setLikesList, JWT) => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/posts/likes/${post_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'JWT': JWT || '',
         },
         credentials: 'include',
     })

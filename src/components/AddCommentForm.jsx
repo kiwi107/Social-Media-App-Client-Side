@@ -1,13 +1,15 @@
 import addComment from '../utils/addComment';
 import { useState } from "react";
+import { useCookies } from 'react-cookie';
 
 const AddCommentForm = ({ post_id, comments, setComments }) => {
     const [text, setText] = useState('');
+    const [cookies] = useCookies(['JWT']);
 
 
     return (
         <div>
-            <form onSubmit={(e) => addComment(e, post_id, comments, setComments)} className="m-3">
+            <form onSubmit={(e) => addComment(e, post_id, comments, setComments, cookies.JWT)} className="m-3">
                 <textarea
                     id='commentFormTextarea'
                     className="form-control"

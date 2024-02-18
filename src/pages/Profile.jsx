@@ -6,6 +6,7 @@ import Post from "../components/Post";
 import Modal from "../components/Modal";
 import { fetchProfile } from "../utils/fetchProfile";
 import { follow, unfollow, fetchFollowers, fetchFollowing } from "../utils/followAPIs";
+import { useCookies } from "react-cookie";
 
 
 
@@ -17,11 +18,12 @@ const Profile = () => {
     const [followed, setFollowed] = useState(false);
     const [followingList, setFollowingList] = useState([]);
     const [followersList, setFollowersList] = useState([]);
+    const [cookies] = useCookies(['JWT']);
 
 
 
     useEffect(() => {
-        fetchProfile(id, setPosts, setUser, setLoggedInUser, setFollowed);
+        fetchProfile(id, setPosts, setUser, setLoggedInUser, setFollowed, cookies.JWT);
     }, [id, followed]);
 
     return (
@@ -40,7 +42,7 @@ const Profile = () => {
                             triggerButton='Following'
                             triggerButtonClassName='text-decoration-none text-dark ms-2'
                             scrollable={true}
-                            onClick={() => fetchFollowing(id, setFollowingList)}
+                            onClick={() => fetchFollowing(id, setFollowingList, cookies.JWT)}
                             body={
                                 <div>
                                     {followingList && followingList.map((user) => {
@@ -67,7 +69,7 @@ const Profile = () => {
                             triggerButton='Followers'
                             triggerButtonClassName='text-decoration-none text-dark ms-2'
                             scrollable={true}
-                            onClick={() => fetchFollowers(id, setFollowersList)}
+                            onClick={() => fetchFollowers(id, setFollowersList, cookies.JWT)}
                             body={
                                 <div>
                                     {followersList && followersList.map((user) => {
@@ -88,8 +90,8 @@ const Profile = () => {
                     </h5>
                     {loggedInUser == id ? <button className="btn btn-primary">Edit Profile</button> :
                         <div className="d-flex">
-                            {followed ? <button onClick={(e) => unfollow(e, id, setFollowed)} className="btn btn-primary me-2">Unfollow</button> :
-                                <button onClick={(e) => follow(e, id, setFollowed)} className="btn btn-primary me-2">Follow</button>
+                            {followed ? <button onClick={(e) => unfollow(e, id, setFollowed, cookies.JWT)} className="btn btn-primary me-2">Unfollow</button> :
+                                <button onClick={(e) => follow(e, id, setFollowed, cookies.JWT)} className="btn btn-primary me-2">Follow</button>
                             }
                             <Link to={`/chat/${id}`}
                                 style={{ textDecoration: 'none', color: 'black' }}

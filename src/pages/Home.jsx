@@ -9,7 +9,7 @@ import { postsContext } from '../App';
 import LoadingPosts from '../components/LoadingPosts';
 
 const Home = () => {
-    const [cookies, setCookie] = useCookies(['auth']);
+    const [cookies, setCookie] = useCookies(['auth', 'userID', 'JWT']);
     const { posts, setPosts } = useContext(postsContext);
     const navigate = useNavigate();
     const [pageNumber, setPageNumber] = useState(1);
@@ -23,7 +23,7 @@ const Home = () => {
         }
 
 
-        fetchPosts(posts, setPosts, setCookie, navigate, pageNumber, setLoading, setHasMore);
+        fetchPosts(posts, setPosts, setCookie, navigate, pageNumber, setLoading, setHasMore, cookies.JWT);
 
         Socket.on('connect', () => {
             console.log('connected');

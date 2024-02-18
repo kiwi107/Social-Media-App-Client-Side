@@ -3,12 +3,14 @@ import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { likePost, unlikePost, fetchLikes } from '../utils/likeAPIs';
+import { useCookies } from 'react-cookie';
 
 const Post = ({ post, timeAgo }) => {
   const location = useLocation();
   const [likes, setLikes] = useState(post.likes_count);
   const [user_has_liked, setUserHasLiked] = useState(post.user_has_liked);
   const [likesList, setLikesList] = useState([]);
+  const [cookies] = useCookies(['JWT']);
 
   useEffect(() => {
     setLikes(post.likes_count)
@@ -44,7 +46,7 @@ const Post = ({ post, timeAgo }) => {
         </Link>
         <br />
 
-        <i onClick={user_has_liked ? (e) => unlikePost(e, post.post_id, likes, setLikes, setUserHasLiked) : (e) => likePost(e, post.post_id, likes, setLikes, setUserHasLiked)}
+        <i onClick={user_has_liked ? (e) => unlikePost(e, post.post_id, likes, setLikes, setUserHasLiked, cookies.JWT) : (e) => likePost(e, post.post_id, likes, setLikes, setUserHasLiked, cookies.JWT)}
           className={user_has_liked ? 'bi bi-suit-heart-fill me-2 fs-3' : 'bi bi-suit-heart me-2 fs-3'}
           style={{ color: "red" }}>
         </i>
@@ -65,7 +67,7 @@ const Post = ({ post, timeAgo }) => {
             triggerButton={likes > 1 ? ` ${likes} likes` : `${likes} like`}
             triggerButtonClassName='text-decoration-none text-dark'
             scrollable={true}
-            onClick={() => fetchLikes(post.post_id, setLikesList)}
+            onClick={() => fetchLikes(post.post_id, setLikesList, cookies.JWT)}
             body={
               <div>
                 {likesList && likesList.map((user) => {

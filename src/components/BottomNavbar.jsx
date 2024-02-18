@@ -10,7 +10,7 @@ const BottomNavbar = () => {
     return (
         <footer className="bg-body-tertiary" style={{ marginTop: 'auto', position: 'fixed', bottom: '0', width:'100%' }}>
             <div className='d-md-none'>
-                <div className="d-flex justify-content-center">
+                <div className="d-flex" style={{justifyContent:'space-between'}}>
                     <div className="text-center">
                         <Link className="nav-link mx-4" to="/"><i className="fs-1 bi bi-house"></i></Link>
                     </div>

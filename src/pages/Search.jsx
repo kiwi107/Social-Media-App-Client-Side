@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 const Search = () => {
   const [result, setResult] = useState([]);
   const [searchKey, setSearchKey] = useState('');
-  const [cookies, setCookie] = useCookies(['auth']);
+  const [cookies, setCookie] = useCookies(['auth', 'userID', 'JWT']);
   const searchInput = useRef();
   const navigate = useNavigate();
 
@@ -14,8 +14,10 @@ const Search = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'JWT': cookies.JWT || '',
       },
       credentials: 'include',
+
     })
       .then(res => {
         if (res.status === 401 || res.status === 403) {

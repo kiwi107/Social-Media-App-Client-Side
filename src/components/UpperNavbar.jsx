@@ -9,7 +9,7 @@ import { postsContext } from '../App';
 
 
 const Navbar = () => {
-    const [cookies, setCookie] = useCookies(['userID', 'auth']);
+    const [cookies, setCookie] = useCookies(['userID', 'auth', 'JWT']);
     const navigate = useNavigate();
     const postTextRef = useRef();// post form
     const postImageRef = useRef();// post form
@@ -29,6 +29,9 @@ const Navbar = () => {
             method: 'POST',
             body: formData,
             credentials: 'include',
+            headers: {
+                'JWT': cookies.JWT || '',
+            }
         })
             .then(res => {
                 return res.json()
@@ -50,7 +53,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div style={{ position: 'fixed',width:'20%'}}>
+            <div style={{ position: 'fixed', width: '20%' }}>
                 <nav className="nav flex-column pt-3 ms-3 d-none d-md-block">
                     <div className='d-flex align-items-center'>
                         <img src="/kiwi.png" alt="logo" style={{ height: '50px' }} />

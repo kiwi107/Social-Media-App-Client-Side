@@ -1,5 +1,5 @@
 
-const addComment = (e, post_id, comments, setComments) => {
+const addComment = (e, post_id, comments, setComments, JWT) => {
     e.preventDefault();
 
 
@@ -13,6 +13,7 @@ const addComment = (e, post_id, comments, setComments) => {
         }),
         headers: {
             'Content-Type': 'application/json',
+            'JWT': JWT || '',
         }
         , credentials: 'include',
     })

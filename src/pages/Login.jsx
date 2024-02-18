@@ -11,7 +11,7 @@ import { bootstrapFormValidation } from '../utils/bootstrapFormValidation';
 
 
 const Login = () => {
-    const [cookies, setCookie] = useCookies(['userID', 'auth'])
+    const [cookies, setCookie] = useCookies(['userID', 'auth', 'JWT'])
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -34,15 +34,15 @@ const Login = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            credentials: 'include',
         })
             .then(res => res.json())
             .then(res => {
                 if (res.auth) {
-                    const oneDay = 60 * 60 * 24 * 1000;
-                    const expiryDate = new Date(Date.now() + oneDay);
+                    const oneYear = 60 * 60 * 24 * 1000 * 365;
+                    const expiryDate = new Date(Date.now() + oneYear);
                     setCookie('userID', res.user.user_id, { path: '/', expires: expiryDate });
-                    setCookie('auth', true)
+                    setCookie('auth', true, { path: '/', expires: expiryDate });
+                    setCookie('JWT', res.token, { path: '/', expires: expiryDate , sameSite: 'None', secure: true});
                     navigate('/')
                 } else {
                     setCookie('auth', false)

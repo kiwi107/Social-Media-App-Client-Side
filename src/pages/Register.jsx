@@ -1,4 +1,4 @@
-import { useState,useRef } from "react";
+import { useState, useRef } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { bootstrapFormValidation } from '../utils/bootstrapFormValidation';
@@ -6,7 +6,7 @@ import { bootstrapFormValidation } from '../utils/bootstrapFormValidation';
 
 
 const Register = () => {
-    const [cookies,setCookie] = useCookies(['auth']);
+    const [cookies, setCookie] = useCookies(['auth', 'userID', 'JWT']);
     const navigate = useNavigate();
     const formRef = useRef(null);
 
@@ -25,7 +25,7 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        bootstrapFormValidation(e,formRef.current);
+        bootstrapFormValidation(e, formRef.current);
         let formData = new FormData();
         formData.append('fullName', fullname);
         formData.append('username', username);
@@ -43,12 +43,11 @@ const Register = () => {
             .then(res => res.json())
             .then(res => {
                 if (res.auth) {
-                    console.log(res);
-                    const oneDay = 60 * 60 * 24 * 1000;
-                    const expiryDate = new Date(Date.now() + oneDay);
+                    const oneYear = 60 * 60 * 24 * 1000 * 365;
+                    const expiryDate = new Date(Date.now() + oneYear);
                     setCookie('auth', true, { path: '/', expires: expiryDate });
-                    console.log(res)
                     setCookie('userID', res.user.user_id, { path: '/', expires: expiryDate });
+                    setCookie('JWT', res.token, { path: '/', expires: expiryDate, sameSite: 'None', secure: true });
                     navigate('/')
                 } else {
                     window.scrollTo(0, 0);
